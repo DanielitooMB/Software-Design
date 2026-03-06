@@ -1,0 +1,1 @@
+This proyect is for the class "Analysis of Algorithms". Where the file "Ordenamientos" you can find the logical algorithms for order an array and the "Main" you can run the proyect and select what algorithm do you want to execute.
