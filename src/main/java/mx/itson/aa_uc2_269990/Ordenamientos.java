@@ -102,4 +102,71 @@ public class Ordenamientos {
         }
     }
     
+    public static void mergeSort(int[] arr, int inicio, int fin) { // arreglo inicial: [10, 4, 24, 3, 8, 12]
+
+                //complejidad temp // conteo
+
+    if (inicio < fin) { // 1 // verifica que el subarreglo tenga mas de un elemento
+
+        int medio = (inicio + fin) / 2; // 1 // calcula el punto medio para dividir el arreglo
+
+        // Sub arreglo Izquierdo
+        mergeSort(arr, inicio, medio);        // 1 // ordena recursivamente la mitad izquierda
+        // Sub arreglo Derecho
+        mergeSort(arr, medio + 1, fin);       // 1 // ordena recursivamente la mitad derecha
+
+        merge(arr, inicio, medio, fin);       // 1 // mezcla ambas mitades ya ordenadas
+    }
+    // Complejidad temporal: O(n log n) en todos los casos
+    // Arreglo inicial:         [10,  4, 24,  3,  8, 12]
+    // Despues division izq:    [4,  10, 24,  3,  8, 12]
+    // Despues division der:    [4,  10, 24,  3,  8, 12]
+    // Despues merge final:     [3,   4,  8, 10, 12, 24]
+    // Arreglo final:           [3,   4,  8, 10, 12, 24]
+    }
+
+    public static void merge(int[] arr, int inicio, int medio, int fin) { // 1 // mezcla dos subarreglos ordenados en uno solo
+
+        int n1 = medio - inicio + 1; // 1 // calcula el tamaño del subarreglo izquierdo
+        int n2 = fin - medio;        // 1 // calcula el tamaño del subarreglo derecho
+
+        int[] izq = new int[n1]; // 1 // crea arreglo temporal para la mitad izquierda
+        int[] der = new int[n2]; // 1 // crea arreglo temporal para la mitad derecha
+
+        for (int i = 0; i < n1; i++) { // 1 + n + n-1 // copia elementos al subarreglo izquierdo
+            izq[i] = arr[inicio + i];  // 1
+        }
+        for (int j = 0; j < n2; j++) { // 1 + n + n-1 // copia elementos al subarreglo derecho
+            der[j] = arr[medio + 1 + j]; // 1
+        }
+
+        int i = 0; // 1 // indice para recorrer subarreglo izquierdo
+        int j = 0; // 1 // indice para recorrer subarreglo derecho
+        int k = inicio; // 1 // indice para colocar elementos en el arreglo original
+
+        while (i < n1 && j < n2) { // n + n-1 // compara elementos de ambos subarreglos
+            if (izq[i] <= der[j]) { // 1 // si elemento izquierdo es menor o igual
+                arr[k] = izq[i];    // 1 // coloca elemento izquierdo en posicion correcta
+                i++;                // 1 // avanza indice izquierdo
+            } else {
+                arr[k] = der[j];    // 1 // coloca elemento derecho en posicion correcta
+                j++;                // 1 // avanza indice derecho
+            }
+            k++;                    // 1 // avanza indice del arreglo original
+        }
+
+        while (i < n1) {         // copia elementos restantes del subarreglo izquierdo si los hay
+            arr[k] = izq[i];     // 1
+            i++;                 // 1
+            k++;                 // 1
+        }
+
+        while (j < n2) {         // copia elementos restantes del subarreglo derecho si los hay
+            arr[k] = der[j];     // 1
+            j++;                 // 1
+            k++;                 // 1
+        }
+        // 1 + (2n) + (n-1) * [4]
+    }
+    
 }
