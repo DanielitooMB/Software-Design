@@ -45,7 +45,7 @@ public class Main {
                 imprimirArreglo(arreglo);
             case 4:
                 System.out.println("Ordenamiento por Quicksort...");
-                Quicksort.quicksort(arreglo, 0, arreglo.length - 1); // arreglo=datos a ordenar, 0=indice donde inicia el ordenamiento, arreglo.length-1=indice del ultimo elemento ya que los arreglos empiezan en 0
+                Ordenamientos.quicksort(arreglo, 0, arreglo.length - 1); // arreglo=datos a ordenar, 0=indice donde inicia el ordenamiento, arreglo.length-1=indice del ultimo elemento ya que los arreglos empiezan en 0
                 imprimirArreglo(arreglo);
             case 5:
                 System.out.println("Ordenamiento por Merge Sort...");
