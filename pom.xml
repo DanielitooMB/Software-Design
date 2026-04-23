@@ -8,6 +8,20 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
-        <exec.mainClass>mx.itson.limonada.Limonada</exec.mainClass>
+        <exec.mainClass>mx.itson.limonada.view.Main</exec.mainClass>
     </properties>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.png</include>
+                    <include>**/*.PNG</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>
