@@ -4,8 +4,9 @@
  */
 package mx.itson.limonada.view;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import mx.itson.limonada.model.Patient;
+import mx.itson.limonada.controller.PatientController;
+
 
 /**
  *
@@ -20,6 +21,14 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        
+        Patient patient = new PatientController().getPatient(1);
+        if (patient != null) {
+            lblName.setText(patient.getName());
+            lblAge.setText("Edad: " + patient.getAge() + " años");
+            lblId.setText("RUT: " + patient.getRut());
+            lblStatus.setText(patient.isStatus() ? "Paciente Activo" : "Paciente Inactivo");
+        }
     }
 
     /**
