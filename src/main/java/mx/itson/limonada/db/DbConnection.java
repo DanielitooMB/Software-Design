@@ -19,22 +19,15 @@ public class DbConnection {
     String password = "mYVaCBuvhcEjSPHCZCGMUvRoVVGHyErO";
     String driver   = "com.mysql.cj.jdbc.Driver";
     Connection cx;
-    
+
     public Connection conected() {
         try {
             Class.forName(driver);
             cx = DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException ex) {
-            System.getLogger(DbConnection.class.getName())
-                  .log(System.Logger.Level.ERROR, (String) null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             System.getLogger(DbConnection.class.getName())
                   .log(System.Logger.Level.ERROR, (String) null, ex);
         }
         return cx;
-    }
-
-    public Connection connected() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

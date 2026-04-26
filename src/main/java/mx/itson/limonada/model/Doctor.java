@@ -8,22 +8,20 @@ package mx.itson.limonada.model;
  *
  * @author Daniel
  */
-public class Patient {
+public class Doctor {
     
     private int id;
-    private String rut;
     private String name;
-    private int age;
+    private String specialty;
     private boolean status;
 
-    public Patient() {
+    public Doctor() {
     }
 
-    public Patient(int id, String rut, String name, int age, boolean status) {
+    public Doctor(int id, String name, String specialty, boolean status) {
         this.id = id;
-        this.rut = rut;
         this.name = name;
-        this.age = age;
+        this.specialty = specialty;
         this.status = status;
     }
 
@@ -35,14 +33,6 @@ public class Patient {
         this.id = id;
     }
 
-    public String getRut() {
-        return rut;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
     public String getName() {
         return name;
     }
@@ -51,12 +41,12 @@ public class Patient {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public String getSpecialty() {
+        return specialty;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
     }
 
     public boolean isStatus() {

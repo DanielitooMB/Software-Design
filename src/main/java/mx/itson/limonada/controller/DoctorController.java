@@ -10,36 +10,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import mx.itson.limonada.db.DbConnection;
-import mx.itson.limonada.model.Patient;
+import mx.itson.limonada.model.Doctor;
 
 /**
  *
  * @author Daniel
  */
-public class PatientController {
+public class DoctorController {
     
-    public ArrayList<Patient> getAll() {
-        ArrayList<Patient> list = new ArrayList<>();
-        String sql = "SELECT * FROM patient";
+    public ArrayList<Doctor> getAll() {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT * FROM doctor";
         try (Connection cx = new DbConnection().conected();
              PreparedStatement ps = cx.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                list.add(new Patient(
+                list.add(new Doctor(
                     rs.getInt("id"),
-                    rs.getString("rut"),
                     rs.getString("name"),
-                    rs.getInt("age"),
+                    rs.getString("specialty"),
                     rs.getBoolean("status")
                 ));
             }
 
         } catch (SQLException ex) {
-            System.getLogger(PatientController.class.getName())
+            System.getLogger(DoctorController.class.getName())
                   .log(System.Logger.Level.ERROR, (String) null, ex);
         }
         return list;
     }
-    
 }

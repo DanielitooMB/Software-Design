@@ -12,29 +12,24 @@ import java.time.LocalTime;
  * @author Daniel
  */
 public class Appointment {
+    
+    private int id;
+    private Doctor doctor;
+    private LocalDate date;
+    private LocalTime time;
+    private String location;
+    private String reason;
+    private boolean status;
 
-    public Appointment() {
-    }
-
-    public Appointment(int id, String doctor, String specialty, LocalDate date, LocalTime time, String location, String reason, boolean status) {
+    public Appointment(int id, Doctor doctor, LocalDate date, LocalTime time, String location, String reason, boolean status) {
         this.id = id;
         this.doctor = doctor;
-        this.specialty = specialty;
         this.date = date;
         this.time = time;
         this.location = location;
         this.reason = reason;
         this.status = status;
     }
-    
-    private int id;
-    private String doctor;
-    private String specialty;
-    private LocalDate date;
-    private LocalTime time;
-    private String location;
-    private String reason;
-    private boolean status;
 
     public int getId() {
         return id;
@@ -44,20 +39,12 @@ public class Appointment {
         this.id = id;
     }
 
-    public String getDoctor() {
+    public Doctor getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(String doctor) {
+    public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
-    }
-
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
     }
 
     public LocalDate getDate() {

@@ -10,37 +10,51 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import mx.itson.limonada.db.DbConnection;
 import mx.itson.limonada.model.Appointment;
+import mx.itson.limonada.model.Doctor;
+
 
 /**
  *
  * @author Daniel
  */
 public class AppointmentController {
-    
-    public Appointment gAppointment(int id) {
-        Appointment appointment = null;
-        try {
-            Connection cx = new DbConnection().connected();
-            String query = "SELECT * FROM appointment WHERE id = ?";
-            PreparedStatement ps = cx.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+
+    public Appointment getNext() {
+        String sql = "SELECT a.id, a.doctor_id, a.date, a.time, a.location, a.reason, a.status, " +
+                     "d.name AS doctor_name, d.specialty " +
+                     "FROM appointment a " +
+                     "JOIN doctor d ON a.doctor_id = d.id " +
+                     "ORDER BY a.date ASC, a.time ASC " +
+                     "LIMIT 1";
+        try (Connection cx = new DbConnection().conected();
+             PreparedStatement ps = cx.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             if (rs.next()) {
-                appointment = new Appointment(
-                        rs.getInt("id"),
-                        rs.getString("doctor"),
-                        rs.getString("specialty"),
-                        rs.getDate("date").toLocalDate(),
-                        rs.getTime("time").toLocalTime(),
-                        rs.getString("location"),
-                        rs.getString("reason"),
-                        rs.getBoolean("status")
+                System.out.println("Cita encontrada ID: " + rs.getInt("id"));
+                Doctor doctor = new Doctor(
+                    rs.getInt("doctor_id"),
+                    rs.getString("doctor_name"),
+                    rs.getString("specialty"),
+                    true
                 );
+                return new Appointment(
+                    rs.getInt("id"),
+                    doctor,
+                    rs.getDate("date").toLocalDate(),
+                    rs.getTime("time").toLocalTime(),
+                    rs.getString("location"),
+                    rs.getString("reason"),
+                    rs.getBoolean("status")
+                );
+            } else {
+                System.out.println("No hay citas en la base de datos");
             }
-            
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+
+        } catch (SQLException ex) {
+            System.out.println("Error SQL: " + ex.getMessage());
         }
-        return appointment;
+        return null;
     }
+    
 }

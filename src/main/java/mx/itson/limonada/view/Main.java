@@ -4,8 +4,13 @@
  */
 package mx.itson.limonada.view;
 
-import mx.itson.limonada.model.Patient;
+import java.util.ArrayList;
+import mx.itson.limonada.controller.AppointmentController;
+import mx.itson.limonada.controller.CancelAppointmentController;
 import mx.itson.limonada.controller.PatientController;
+import mx.itson.limonada.model.Appointment;
+import mx.itson.limonada.model.Patient;
+
 
 
 /**
@@ -15,21 +20,46 @@ import mx.itson.limonada.controller.PatientController;
 public class Main extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
-
+    
+    private Appointment currentAppointment;
+    private Patient currentPatient;
+    
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        
-        Patient patient = new PatientController().getPatient(1);
-        if (patient != null) {
-            lblName.setText(patient.getName());
-            lblAge.setText("Edad: " + patient.getAge() + " años");
-            lblId.setText("RUT: " + patient.getRut());
-            lblStatus.setText(patient.isStatus() ? "Paciente Activo" : "Paciente Inactivo");
-        }
+        loadData();
     }
+    
+    private void loadData() {
+    // Paciente
+    PatientController patientController = new PatientController();
+    ArrayList<Patient> patients = patientController.getAll();
+    if (!patients.isEmpty()) {
+        currentPatient = patients.get(0);
+        lblId.setText(String.valueOf(currentPatient.getId()));
+        lblName.setText(currentPatient.getName());
+        lblAge.setText(String.valueOf(currentPatient.getAge()));
+        lblStatus.setText(currentPatient.isStatus() ? "Activo" : "Inactivo");
+    }
+
+    // Cita
+    AppointmentController appointmentController = new AppointmentController();
+    currentAppointment = appointmentController.getNext();
+    if (currentAppointment != null) {
+        lblAppointmentId.setText(String.valueOf(currentAppointment.getId()));
+        lblDoctor.setText(currentAppointment.getDoctor().getName());
+        lblSpecialty.setText(currentAppointment.getDoctor().getSpecialty());
+        lblDate.setText(currentAppointment.getDate().toString());
+        lblTime.setText(currentAppointment.getTime().toString());
+        lblLocation.setText(currentAppointment.getLocation());
+        lblReason.setText(currentAppointment.getReason());
+    } else {
+        lblDoctor.setText("Sin citas activas");
+    }
+}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -284,7 +314,6 @@ public class Main extends javax.swing.JFrame {
         jPanel11.setPreferredSize(new java.awt.Dimension(51, 47));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user_blue_39px.png"))); // NOI18N
-        jLabel12.setPreferredSize(new java.awt.Dimension(39, 39));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -292,7 +321,7 @@ public class Main extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel12)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
@@ -523,6 +552,7 @@ public class Main extends javax.swing.JFrame {
         btnCancelAppointment.setFont(new java.awt.Font("Segoe UI Variable", 1, 15)); // NOI18N
         btnCancelAppointment.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelAppointment.setText("Cancelar Cita");
+        btnCancelAppointment.addActionListener(this::btnCancelAppointmentActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -545,7 +575,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 655, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
@@ -594,6 +624,22 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAppointmentActionPerformed
+    if (currentAppointment != null && currentPatient != null) {
+        CancelAppointmentController controller = new CancelAppointmentController();
+        boolean ok = controller.cancel(
+            currentAppointment.getId(),
+            currentAppointment.getDoctor().getId(),
+            currentPatient.getId()
+        );
+        if (ok) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Cita eliminada. Reinicia para ver la siguiente.");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al eliminar.");
+        }
+    }
+    }//GEN-LAST:event_btnCancelAppointmentActionPerformed
 
     /**
      * @param args the command line arguments
