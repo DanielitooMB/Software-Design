@@ -18,26 +18,25 @@ import mx.itson.limonada.model.Doctor;
  */
 public class DoctorController {
     
-    public ArrayList<Doctor> getAll() {
-        ArrayList<Doctor> list = new ArrayList<>();
-        String sql = "SELECT * FROM doctor";
+    public Doctor getById(int id) {
+        String sql = "SELECT * FROM doctor WHERE id = ?";
         try (Connection cx = new DbConnection().conected();
-             PreparedStatement ps = cx.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = cx.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                list.add(new Doctor(
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Doctor(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("specialty"),
                     rs.getBoolean("status")
-                ));
+                );
             }
 
         } catch (SQLException ex) {
-            System.getLogger(DoctorController.class.getName())
-                  .log(System.Logger.Level.ERROR, (String) null, ex);
+            System.out.println("Error: " + ex.getMessage());
         }
-        return list;
+        return null;
     }
 }

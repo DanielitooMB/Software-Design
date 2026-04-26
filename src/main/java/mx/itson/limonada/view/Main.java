@@ -7,8 +7,10 @@ package mx.itson.limonada.view;
 import java.util.ArrayList;
 import mx.itson.limonada.controller.AppointmentController;
 import mx.itson.limonada.controller.CancelAppointmentController;
+import mx.itson.limonada.controller.DoctorController;
 import mx.itson.limonada.controller.PatientController;
 import mx.itson.limonada.model.Appointment;
+import mx.itson.limonada.model.Doctor;
 import mx.itson.limonada.model.Patient;
 
 
@@ -43,18 +45,24 @@ public class Main extends javax.swing.JFrame {
         lblAge.setText(String.valueOf(currentPatient.getAge()));
         lblStatus.setText(currentPatient.isStatus() ? "Activo" : "Inactivo");
     }
-
+    
     // Cita
     AppointmentController appointmentController = new AppointmentController();
     currentAppointment = appointmentController.getNext();
     if (currentAppointment != null) {
         lblAppointmentId.setText(String.valueOf(currentAppointment.getId()));
-        lblDoctor.setText(currentAppointment.getDoctor().getName());
-        lblSpecialty.setText(currentAppointment.getDoctor().getSpecialty());
         lblDate.setText(currentAppointment.getDate().toString());
         lblTime.setText(currentAppointment.getTime().toString());
         lblLocation.setText(currentAppointment.getLocation());
         lblReason.setText(currentAppointment.getReason());
+
+    // Doctor
+    DoctorController doctorController = new DoctorController();
+    Doctor doctor = doctorController.getById(currentAppointment.getDoctor().getId());
+    if (doctor != null) {
+        lblDoctor.setText(doctor.getName());
+        lblSpecialty.setText(doctor.getSpecialty());
+    }
     } else {
         lblDoctor.setText("Sin citas activas");
     }
