@@ -24,6 +24,7 @@ public class Main {
         System.out.println("3. Ordenamiento por Insercion");
         System.out.println("4. Ordenamiento por Quicksort");
         System.out.println("5. Ordenamiento por Merge Sort");
+        System.out.println("6. Arbol de Busqueda Binaria (BST)");
         System.out.print("Selecciona una opcion: ");
         
         int opcion = sc.nextInt();
@@ -45,16 +46,19 @@ public class Main {
                 imprimirArreglo(arreglo);
             case 4:
                 System.out.println("Ordenamiento por Quicksort...");
-                Ordenamientos.quicksort(arreglo, 0, arreglo.length - 1); // arreglo=datos a ordenar, 0=indice donde inicia el ordenamiento, arreglo.length-1=indice del ultimo elemento ya que los arreglos empiezan en 0
+                Ordenamientos.quicksort(arreglo, 0, arreglo.length - 1);
                 imprimirArreglo(arreglo);
             case 5:
                 System.out.println("Ordenamiento por Merge Sort...");
-                Ordenamientos.mergeSort(arreglo, 0, arreglo.length - 1); // arreglo=datos a ordenar, 0=indice donde inicia, arreglo.length-1=indice del ultimo elemento ya que los arreglos empiezan en 0
+                Ordenamientos.mergeSort(arreglo, 0, arreglo.length - 1);
                 imprimirArreglo(arreglo);
+            case 6:
+                Ordenamientos.ejecutarBST();
+                break;
             default:
         }
     }
-
+    
     public static void imprimirArreglo(int[] arreglo) {
         System.out.print("Resultado: [ ");
         for (int num : arreglo) {
